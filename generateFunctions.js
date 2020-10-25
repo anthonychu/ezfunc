@@ -2,12 +2,11 @@ const fs = require('fs').promises;
 const path = require('path');
 const ci = require('ci-info');
 
-module.exports = async function generateFunctions() {
-  if (!ci.isCI) {
+module.exports = async function generateFunctions(argv) {
+  if (!ci.isCI && !argv.force) {
     console.log('Not running in CI environment. Skipping function app generation.');
     return 0;
   }
-
   const files = await fs.readdir('.');
 
   for (let file of files.filter(f => f.endsWith('.js'))) {
