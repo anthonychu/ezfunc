@@ -13,6 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "ci-info": "^2.0.0",
+    "find": "^0.3.0",
     "yargs": "^16.1.0"
   }
 }
