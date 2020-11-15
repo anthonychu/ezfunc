@@ -9,6 +9,17 @@ module.exports = async function generateFunctions(argv) {
   }
   const files = await fs.readdir('.');
 
+  if (argv.realtime && !files.includes('negotiate.js') && !files.includes('negotiate')) {
+    await fs.writeFile('negotiate.js', `
+    const swa = require('./lib/swa');
+
+    module.exports = async function (context, req) {
+        context.res.json(swa.realtime.generateNegotiatePayload());
+    };
+    `);
+    files.push('negotiate.js');
+  }
+
   for (let file of files.filter(f => f.endsWith('.js'))) {
     const fileStats = await fs.lstat(file);
     if (fileStats.isFile) {
